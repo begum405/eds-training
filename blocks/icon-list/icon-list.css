@@ -1,0 +1,84 @@
+.icon-list > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+    gap: 24px;
+}
+
+.icon-list > ul > li {
+    background-color: #FFFFFF;
+    padding: 20px 20px 15px 20px;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+}
+
+.icon-list .icon-list-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-list .icon-list-icon-container {
+    line-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*.icon-list > ul > li img {*/
+/*    width: 40px;*/
+/*    object-fit: cover;*/
+/*}*/
+.icon-list .icon-list-icon-container i {
+    font-size: 50px;
+    color: #0659d4;
+}
+
+.icon-list-content > h2 {
+    margin-top: 8px;
+    color: #0659d4;
+}
+
+.icon-list-content > p {
+    padding: 0;
+    margin: 0;
+}
+
+/* ==========================================
+   Hover Card Variation
+   .icon-list.hover-variation
+   ========================================== */
+
+.icon-list.hover-variation > ul > li {
+    text-align: center;
+    padding: 28px 24px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.icon-list.hover-variation .icon-list-content p:first-child {
+    margin: 12px 0 10px;
+    font-size: 20px;
+}
+
+/* hover state */
+.icon-list.hover-variation > ul > li:hover {
+    background-color: #0659d4;
+}
+
+/* change icon color on hover */
+.icon-list.hover-variation > ul > li:hover .icon-list-icon-container i {
+    color: #fff;
+}
+
+/* change title color on hover */
+.icon-list.hover-variation > ul > li:hover .icon-list-content p:first-child {
+    color: #fff;
+}
+
+/* change description color on hover */
+.icon-list.hover-variation > ul > li:hover .icon-list-content p:last-child {
+    color: #fff;
+}
