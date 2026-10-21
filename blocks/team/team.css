@@ -1,3 +1,7 @@
+.team-container .default-content-wrapper {
+    text-align: center;
+}
+
 .team {
   padding: 80px 0;
 }
