@@ -1,3 +1,7 @@
+.pricing-container .default-content-wrapper {
+    text-align: center;
+}
+
 .pricing .pricing-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
