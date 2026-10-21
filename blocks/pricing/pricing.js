@@ -1,116 +1,57 @@
-function createPrice(priceText, periodText) {
-  const priceWrapper = document.createElement('div');
-  priceWrapper.classList.add('pricing-price');
-
-  const price = document.createElement('p');
-  price.classList.add('price-value');
-
-  // Separates "$" from "09", "$25", "$42", etc.
-  const priceMatch = priceText.match(/^([^0-9]*)([0-9.,]+)$/);
-
-  const currency = document.createElement('span');
-  currency.classList.add('price-currency');
-  currency.textContent = priceMatch ? priceMatch[1].trim() : '$';
-
-  const amount = document.createElement('span');
-  amount.classList.add('price-amount');
-  amount.textContent = priceMatch ? priceMatch[2] : priceText;
-
-  const period = document.createElement('p');
-  period.classList.add('price-period');
-  period.textContent = periodText;
-
-  price.append(currency, amount);
-  priceWrapper.append(price, period);
-
-  return priceWrapper;
-}
-
-function createFeatureList(featuresText) {
-  const featureList = document.createElement('ul');
-  featureList.classList.add('pricing-features');
-
-  // Features must be separated by semicolons in EDS authoring.
-  const features = featuresText
-    .split(';')
-    .map((feature) => feature.trim())
-    .filter(Boolean);
-
-  features.forEach((feature) => {
-    const listItem = document.createElement('li');
-
-    const icon = document.createElement('i');
-    icon.classList.add('feature-icon');
-    icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = '›';
-
-    const featureText = document.createElement('span');
-    featureText.textContent = feature;
-
-    listItem.append(icon, featureText);
-    featureList.append(listItem);
-  });
-
-  return featureList;
-}
-
-function createCTA(buttonColumn) {
-  const authoredLink = buttonColumn.querySelector('a');
-
-  // Do not manufacture a URL if the author did not provide one.
-  if (!authoredLink) return null;
-
-  authoredLink.classList.add('pricing-button');
-
-  const buttonContainer = document.createElement('div');
-  buttonContainer.classList.add('pricing-button-container');
-  buttonContainer.append(authoredLink);
-
-  return buttonContainer;
-}
-
 export default function decorate(block) {
-  const authoredRows = [...block.children];
-  const cardList = document.createElement('div');
+  const rows = [...block.children];
 
-  cardList.classList.add('pricing-card-list');
 
-  authoredRows.forEach((row) => {
-    const columns = [...row.children];
-    if (columns.length < 5) return;
+  block.innerHTML = '';
 
-    const [
-      planColumn,
-      priceColumn,
-      periodColumn,
-      featuresColumn,
-      buttonColumn,
-    ] = columns;
+  const cardsWrapper = document.createElement('div');
+  cardsWrapper.className = 'pricing-cards';
 
-    const planName = planColumn.textContent.trim();
-    const priceText = priceColumn.textContent.trim();
-    const periodText = periodColumn.textContent.trim();
-    const featuresText = featuresColumn.textContent.trim();
+  rows.forEach((row) => {
+    const cols = [...row.children];
 
-    const card = document.createElement('article');
-    card.classList.add('pricing-card');
+    const title = cols[0]?.textContent.trim();
+    const price = cols[1]?.textContent.trim().replace('$', '');
+    const duration = cols[2]?.textContent.trim();
+    const features = cols[3]?.textContent.trim();
+    const cta = cols[4]?.textContent.trim();
 
-    const heading = document.createElement('h3');
-    heading.classList.add('pricing-title');
-    heading.textContent = planName;
+    const card = document.createElement('div');
+    card.className = 'pricing-card';
 
-    const price = createPrice(priceText, periodText);
-    const featureList = createFeatureList(featuresText);
-    const button = createCTA(buttonColumn);
+    const featureItems = features
+      .split(';')
+      .filter((item) => item.trim())
+      .map(
+        (item) => `
+          <li>
+            <i class="icofont icofont-circled-right"></i>
+            <span>${item.trim()}</span>
+          </li>
+        `,
+      )
+      .join('');
 
-    card.append(heading, price, featureList);
+    card.innerHTML = `
+      <h3 class="pricing-title">${title}</h3>
 
-    if (button) {
-      card.append(button);
-    }
+      <div class="pricing-circle">
+        <div class="pricing-symbol">$</div>
+        <div class="pricing-price">${price}</div>
+        <div class="pricing-duration">${duration}</div>
+      </div>
 
-    cardList.append(card);
+      <ul class="pricing-features">
+        ${featureItems}
+      </ul>
+
+      <a href="#" class="pricing-btn">
+        ${cta}
+      </a>
+    `;
+
+    cardsWrapper.append(card);
   });
 
-  block.replaceChildren(cardList);
+  block.append(cardsWrapper);
 }
