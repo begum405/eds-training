@@ -1,3 +1,7 @@
+.filter-gallery-container .default-content-wrapper {
+    text-align: center;
+}
+
 .filter-gallery {
     padding: 40px 20px;
     margin: 0 auto;
