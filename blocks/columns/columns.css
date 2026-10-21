@@ -1,33 +1,110 @@
-.columns > div {
+/* Two-column layout */
+.columns.columns-2-cols > div {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  gap: 50px;
 }
 
-.columns img {
+/* Left section */
+.columns .left-section {
+  width: 50%;
+}
+
+.columns .left-section picture,
+.columns .left-section img {
+  display: block;
   width: 100%;
 }
 
-.columns > div > div {
-  order: 1;
+.columns .left-section img {
+  height: auto;
+  object-fit: cover;
 }
 
-.columns > div > .columns-img-col {
-  order: 0;
+/* Right section */
+.columns .right-section {
+  width: 50%;
 }
 
-.columns > div > .columns-img-col img {
-  display: block;
+.columns .right-section h2 {
+  margin: 0 0 15px;
+  color: #172033;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.15;
 }
 
-@media (width >= 900px) {
-  .columns > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+/* Description */
+.columns .right-section .right-section-description {
+  margin: 0 0 25px;
+  color: #172033;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Feature rows */
+.columns .right-section .feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  color: #172033;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.columns .right-section .feature-icon {
+  color: #172033;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Remove extra spacing around button */
+.columns .right-section .button-container {
+  margin: 25px 0 0;
+}
+
+/* Read More button */
+.columns .right-section .read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 34px;
+  border-radius: 30px;
+  background-color: #0861df;
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.columns .right-section .read-more-btn:hover {
+  background-color: #064eb5;
+  color: #fff;
+}
+
+/* Tablet and mobile */
+@media (max-width: 768px) {
+  .columns.columns-2-cols > div {
+    flex-direction: column;
+    padding: 40px 16px;
+    gap: 30px;
   }
 
-  .columns > div > div {
-    flex: 1;
-    order: unset;
+  .columns .left-section,
+  .columns .right-section {
+    width: 100%;
+  }
+
+  .columns .right-section h2 {
+    font-size: 32px;
+  }
+
+  .columns .right-section .right-section-description,
+  .columns .right-section .feature-item {
+    font-size: 16px;
   }
 }
