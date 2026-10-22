@@ -1,9 +1,6 @@
 export default function decorate(block) {
   const rows = [...block.children];
-
-
   block.innerHTML = '';
-
   const cardsWrapper = document.createElement('div');
   cardsWrapper.className = 'pricing-cards';
 
@@ -13,45 +10,43 @@ export default function decorate(block) {
     const title = cols[0]?.textContent.trim();
     const price = cols[1]?.textContent.trim().replace('$', '');
     const duration = cols[2]?.textContent.trim();
-    const features = cols[3]?.textContent.trim();
-    const cta = cols[4]?.textContent.trim();
+    const features = cols[3]?.querySelector('ul');
+    const cta = cols[4]?.querySelector('a');
 
     const card = document.createElement('div');
     card.className = 'pricing-card';
 
-    const featureItems = features
-      .split(';')
-      .filter((item) => item.trim())
-      .map(
-        (item) => `
-          <li>
-            <i class="icofont icofont-circled-right"></i>
-            <span>${item.trim()}</span>
-          </li>
-        `,
-      )
-      .join('');
+    const titleElement = document.createElement('h3');
+    titleElement.className = 'pricing-title';
+    titleElement.textContent = title;
 
-    card.innerHTML = `
-      <h3 class="pricing-title">${title}</h3>
+    const priceCircle = document.createElement('div');
+    priceCircle.className = 'pricing-circle';
 
-      <div class="pricing-circle">
-        <div class="pricing-symbol">$</div>
-        <div class="pricing-price">${price}</div>
-        <div class="pricing-duration">${duration}</div>
-      </div>
+    const priceElement = document.createElement('div');
+    priceElement.className = 'pricing-price';
+    priceElement.innerHTML = `<span class="pricing-symbol">$</span>${price}`;
 
-      <ul class="pricing-features">
-        ${featureItems}
-      </ul>
+    const durationElement = document.createElement('div');
+    durationElement.className = 'pricing-duration';
+    durationElement.textContent = duration;
 
-      <a href="#" class="pricing-btn">
-        ${cta}
-      </a>
-    `;
+    priceCircle.append(priceElement, durationElement);
+    card.append(titleElement, priceCircle);
 
+    if (features) {
+      features.classList.add('pricing-features');
+
+      features.querySelectorAll('li').forEach((item) => {
+        const icon = document.createElement('i');
+        icon.className = 'icofont icofont-circled-right';
+        icon.setAttribute('aria-hidden', 'true');
+        item.prepend(icon);
+      });
+      card.append(features);
+    }
+    card.append(cta);
     cardsWrapper.append(card);
   });
-
-  block.append(cardsWrapper);
+  block.replaceChildren(cardsWrapper);
 }
