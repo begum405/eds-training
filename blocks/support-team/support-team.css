@@ -75,23 +75,13 @@
   color: #333;
 }
 
-@media (max-width: 991px) {
+@media (width <= 767px) {
   .support-team-wrapper {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 767px) {
-  .support-team-card {
-    padding: 24px;
-  }
-
-  .support-team-header {
+    /*grid-template-columns: 1fr;*/
     flex-direction: column;
-    text-align: center;
   }
 
-  .support-team-info h3 {
-    font-size: 28px;
-  }
+    .support-team-info h3 {
+        font-size: 28px;
+    }
 }
