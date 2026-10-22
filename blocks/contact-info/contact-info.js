@@ -19,11 +19,11 @@ export default function decorate(block) {
   const getIcon = (type) => {
     switch (type) {
       case 'location':
-        return 'icofont-location-pin';
+        return 'icofont icofont-location-pin';
       case 'phone':
-        return 'icofont-ui-call';
+        return 'icofont icofont-iphone';
       case 'email':
-        return 'icofont-email';
+        return 'icofont icofont-email';
       default:
         return 'icofont-info-circle';
     }
