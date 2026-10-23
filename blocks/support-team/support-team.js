@@ -1,6 +1,6 @@
 export default function decorate(block) {
   const rows = [...block.children];
-
+  block.innerHTML = '';
   const cardsWrapper = document.createElement('div');
   cardsWrapper.className = 'support-team-wrapper';
 
@@ -9,48 +9,75 @@ export default function decorate(block) {
 
     if (cols.length < 2) return;
 
-    const imageCol = cols[0];
-    const contentCol = cols[1];
+    const image = cols[0]?.querySelector('picture');
+    const contentItems = [...cols[1].children];
 
-    const image = imageCol.querySelector('picture');
-
-    const contentItems = [...contentCol.children];
-
-    const name = contentItems[0]?.textContent?.trim() || '';
-    const role = contentItems[1]?.textContent?.trim() || '';
-    const rating = contentItems[2]?.textContent?.trim() || '';
-    const description = contentItems[3]?.textContent?.trim() || '';
+    const name = contentItems[0]?.textContent.trim() || '';
+    const role = contentItems[1]?.textContent.trim() || '';
+    const rating = contentItems[2]?.textContent.trim() || '';
+    const description = contentItems[3]?.textContent.trim() || '';
 
     const card = document.createElement('div');
     card.className = 'support-team-card';
 
-    card.innerHTML = `
-      <div class="support-team-header">
-        <div class="support-team-image">
-          ${image ? image.outerHTML : ''}
-        </div>
+    const header = document.createElement('div');
+    header.className = 'support-team-header';
 
-        <div class="support-team-info">
-          <h3>${name}</h3>
-          <span>${role}</span>
-        </div>
-      </div>
+    const imageWrapper = document.createElement('div');
+    imageWrapper.className = 'support-team-image';
 
-      <div class="support-team-rating">
-        <span class="stars">★★★★★</span>
-        <span class="rating-text">
-          ${rating.replace('★★★★★', '').trim()}
-        </span>
-      </div>
+    if (image) {
+      imageWrapper.append(image);
+    }
 
-      <p class="support-team-description">
-        ${description}
-      </p>
-    `;
+    const info = document.createElement('div');
+    info.className = 'support-team-info';
+
+    const nameElement = document.createElement('h3');
+    nameElement.textContent = name;
+
+    const roleElement = document.createElement('span');
+    roleElement.textContent = role;
+
+    info.append(nameElement, roleElement);
+    header.append(imageWrapper, info);
+
+    const ratingWrapper = document.createElement('div');
+    ratingWrapper.className = 'support-team-rating';
+
+    const stars = document.createElement('span');
+    stars.className = 'stars';
+
+    const starCount = Math.min(Math.max(Number(rating) || 0, 1), 5);
+
+    for (let i = 0; i < starCount; i += 1) {
+      const starIcon = document.createElement('i');
+      starIcon.className = 'ti ti-star txbdbcolor';
+      stars.append(starIcon);
+    }
+
+    const ratingText = document.createElement('span');
+    ratingText.className = 'rating-text';
+
+    const ratingLabels = {
+      1: 'Poor',
+      2: 'Fair',
+      3: 'Good',
+      4: 'Very Good',
+      5: 'Excellent',
+    };
+
+    ratingText.textContent = ratingLabels[starCount];
+
+    ratingWrapper.append(stars, ratingText);
+
+    const descriptionElement = document.createElement('p');
+    descriptionElement.className = 'support-team-description';
+    descriptionElement.textContent = description;
+
+    card.append(header, ratingWrapper, descriptionElement);
 
     cardsWrapper.append(card);
   });
-
-  block.textContent = '';
-  block.append(cardsWrapper);
+  block.replaceChildren(cardsWrapper);
 }
